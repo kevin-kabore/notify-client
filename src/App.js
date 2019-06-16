@@ -1,41 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {
+  useEffect, useState, useReducer, useContext
+}
+from 'react';
+import Nav from './components/Nav';
+import Modal from './components/Modal';
 
-function App() {
-  const useAPI = endpoint => {
-    const [data, setData] = useState([]);
+import ContentContext from './context';
+import reducer from './reducer';
 
-    useEffect(() => {
-      getData();
-    });
+const useAPI = endpoint => {
+  const [data, setData] = useState('');
 
-    const getData = async () => {
-      const response = await fetch(endpoint).then(res => res.json());
 
-      setData(response);
-    };
+  useEffect(() => {
+    getData();
+  }, []);
 
-    return data;
+  const getData = async() => {
+    const response = await fetch(endpoint).then(res => res.text());
+    console.log(response)
+
+    setData(response);
   };
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code> src / App.js </code> and save to reload.{' '}
-        </p>{' '}
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer">
-          Learn React{' '}
-        </a>{' '}
-      </header>{' '}
-    </div>
+  return data;
+};
+
+export default function App() {
+  const initialState = useContext(ContentContext);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const apiContents = useAPI('http://localhost:3005/api/');
+  console.log(apiContents);
+
+  useEffect(() => {
+    dispatch({
+      type: 'GET_CONTENT',
+      payload: apiContents
+    });
+  }, [apiContents]);
+
+  // console.log(myData);
+
+  return ( < ContentContext.Provider value = {
+      {
+        state, dispatch
+      }
+    } >
+    < Nav / >
+    < Modal / >
+    < /ContentContext.Provider>
   );
 }
-
-export default App;

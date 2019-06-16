@@ -14,11 +14,10 @@ const useAPI = endpoint => {
 
   useEffect(() => {
     getData();
-  }, []);
+  });
 
   const getData = async() => {
     const response = await fetch(endpoint).then(res => res.text());
-    console.log(response)
 
     setData(response);
   };
@@ -31,7 +30,6 @@ export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const apiContents = useAPI('http://localhost:3005/api/');
-  console.log(apiContents);
 
   useEffect(() => {
     dispatch({
@@ -40,7 +38,6 @@ export default function App() {
     });
   }, [apiContents]);
 
-  // console.log(myData);
 
   return ( < ContentContext.Provider value = {
       {

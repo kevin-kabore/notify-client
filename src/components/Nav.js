@@ -16,7 +16,7 @@ export default function Nav() {
             type: 'TOGGLE_MODAL'
           })
         }>
-        <img src="https://icon.now.sh/face" alt="Edit Icon" className="h-6" />
+        <img src="https://icon.now.sh/face" alt="Avatar Icon" className="h-6" />
       </button>{' '}
     </nav>
   );

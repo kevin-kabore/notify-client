@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useReducer, useContext } from 'react';
+import uuidv4 from 'uuid/v4';
+
 import Nav from './components/Nav';
 import Modal from './components/Modal';
 
@@ -43,24 +45,35 @@ export default function App() {
       const createCards = content => {
         let cards = [],
           newCard = {},
+          description = '',
           lines = content.split('\n');
-        lines.forEach(line => {
-          if (line.startsWith('###')) {
-            newCard.date = line;
-          } else if (line.startsWith('##')) {
-            newCard.title = line;
-          } else if (line.startsWith('#')) {
-            setHeader(line);
-            console.log(header);
-          } else {
-            if (line.length > 0) newCard.desc = line;
-          }
 
+        for (var i = 0; i < lines.length; i++) {
+          if (lines[i].startsWith('###')) {
+            newCard.date = lines[i];
+          } else if (lines[i].startsWith('##')) {
+            newCard.title = lines[i];
+          } else if (lines[i].startsWith('#')) {
+            setHeader(lines[i]);
+          } else {
+            if (
+              lines[i].length > 0 &&
+              (lines[i + 1] && lines[i + 1].startsWith('#'))
+            ) {
+              description = description + ` \n ${lines[i]}`;
+              newCard.desc = description;
+              description = '';
+            } else if (lines[i].length > 0) {
+              description = description + ` ${lines[i]}`;
+              if (!lines[i + 1]) newCard.desc = description;
+            }
+          }
           if (newCard.title && newCard.date && newCard.desc) {
+            newCard.id = uuidv4();
             cards.push(newCard);
             newCard = {};
           }
-        });
+        }
         return cards;
       };
       const apiCards = createCards(state.contents);
@@ -80,7 +93,8 @@ export default function App() {
         dispatch
       }}>
       <Nav />
-      <div> {header.length > 0 ? `${header}` : 'Waiting....'} </div> <Modal />
+      <div> {header.length > 0 ? `${header}` : 'Waiting....'} </div>{' '}
+      {state.showModal ? <Modal /> : null}{' '}
     </ContentContext.Provider>
   );
 }

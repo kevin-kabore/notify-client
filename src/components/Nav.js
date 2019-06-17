@@ -1,5 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ContentContext from '../context';
 
 export default function Nav() {
-  return <nav> This is the nav </nav>;
+  const { dispatch } = useContext(ContentContext);
+  return (
+    <nav
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between'
+      }}>
+      <h1> Notify </h1>{' '}
+      <button
+        onClick={() =>
+          dispatch({
+            type: 'TOGGLE_MODAL'
+          })
+        }>
+        <img src="https://icon.now.sh/face" alt="Edit Icon" className="h-6" />
+      </button>{' '}
+    </nav>
+  );
 }

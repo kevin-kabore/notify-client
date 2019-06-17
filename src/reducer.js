@@ -10,6 +10,11 @@ export default function reducer(state, action) {
         ...state,
         cards: action.payload
       };
+    case 'TOGGLE_MODAL':
+      return {
+        ...state,
+        showModal: !state.showModal
+      };
     default:
       return state;
   }

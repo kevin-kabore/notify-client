@@ -1,0 +1,32 @@
+nav {
+  display: 'flex';
+  justify-content: 'space-between';
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+nav .avatar-icon {
+  cursor: pointer;
+}
+
+nav .notification-icon {
+  cursor: pointer;
+  position: absolute;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  right: 10px;
+  top: 10px;
+}
+nav .notification-icon span {
+  display: block;
+  margin-top: -2px;
+}

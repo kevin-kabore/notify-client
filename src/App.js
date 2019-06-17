@@ -1,11 +1,13 @@
-import React, { useEffect, useState, useReducer, useContext } from 'react';
+import React, {useEffect, useState, useReducer, useContext} from 'react';
 import uuidv4 from 'uuid/v4';
+import reducer from './reducer';
+import ContentContext from './context';
 
 import Nav from './components/Nav';
 import Modal from './components/Modal';
+import crown from './img/crown.png';
 
-import ContentContext from './context';
-import reducer from './reducer';
+import './css/App.css';
 
 const useAPI = endpoint => {
   const [data, setData] = useState('');
@@ -87,14 +89,55 @@ export default function App() {
   );
 
   return (
-    <ContentContext.Provider
-      value={{
-        state,
-        dispatch
-      }}>
-      <Nav />
-      <div> {header.length > 0 ? `${header}` : 'Waiting....'} </div>{' '}
-      {state.showModal ? <Modal /> : null}{' '}
-    </ContentContext.Provider>
+    <div className="App">
+      <ContentContext.Provider
+        value={{
+          state,
+          dispatch
+        }}
+      >
+        <Nav /> {state.showModal ? <Modal /> : null}{' '}
+        <div className="App-body">
+          <div className="App-header-img">
+            <img src={crown} alt="Crown" />
+          </div>{' '}
+          <div className="App-header">
+            You Have{' '}
+            {state.cards.length > 0 ? (
+              <>
+                <span className="notification-count-red">
+                  {' '}
+                  {state.cards.length}{' '}
+                </span>
+                Royally Important Notifications{' '}
+              </>
+            ) : (
+              <>
+                <span className="notification-count-green"> 0 </span>
+                Notifications{' '}
+              </>
+            )}{' '}
+          </div>{' '}
+          <div>
+            {' '}
+            {state.cards.length > 0 ? (
+              <button
+                className="btn-notification"
+                onClick={() =>
+                  dispatch({
+                    type: 'TOGGLE_MODAL'
+                  })
+                }
+              >
+                {' '}
+                {state.showModal
+                  ? 'Hide Notifications'
+                  : 'View Notifications'}{' '}
+              </button>
+            ) : null}{' '}
+          </div>{' '}
+        </div>{' '}
+      </ContentContext.Provider>{' '}
+    </div>
   );
 }

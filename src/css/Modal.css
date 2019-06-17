@@ -2,8 +2,45 @@
   background-color: white;
   color: black;
   width: 40vw;
+  max-height: 50vh;
   padding: 1rem;
   text-align: center;
   position: absolute;
   right: 0;
+  overflow: scroll;
+}
+
+.Modal .modal-header {
+  font-weight: bold;
+  font-size: calc(20px + 1vmin);
+}
+
+.Modal hr {
+  margin: 1rem -1rem 0;
+}
+
+.Modal .card {
+  border-bottom: 1px dotted grey;
+}
+.Modal .card:last-of-type {
+  border-bottom: none;
+}
+
+.Modal .card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Modal .card .card-header .card-date h3 {
+  font-size: calc(5px + 1vmin) !important;
+  margin: 0 !important;
+}
+
+.Modal .card .card-header .card-title h2 {
+  font-size: calc(10px + 1vmin) !important;
+  margin: 15px 0 0 !important;
+}
+.Modal .card .card-description {
+  text-align: left;
 }

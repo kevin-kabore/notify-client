@@ -1,13 +1,25 @@
-import React, { useContext, useEffect } from 'react';
-import Card from './Card';
+import React, { useContext } from 'react';
+// import Card from './Card';
+import ReactMarkdown from 'react-markdown';
 
 import ContentContext from '../context';
 
 export default function Modal() {
   const {
-    state: { header, cards }
+    state: { cards }
   } = useContext(ContentContext);
 
-  console.log(cards);
-  return <div />;
+  return (
+    <div>
+      {' '}
+      {cards.map(c => {
+        return (
+          <div>
+            <ReactMarkdown source={c.title} /> <ReactMarkdown source={c.date} />{' '}
+            <ReactMarkdown source={c.desc} />{' '}
+          </div>
+        );
+      })}{' '}
+    </div>
+  );
 }

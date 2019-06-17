@@ -21,11 +21,6 @@ const useAPI = endpoint => {
   return data;
 };
 
-const initialNewCardState = {
-  title: '',
-  date: '',
-  desc: ''
-};
 export default function App() {
   const initialState = useContext(ContentContext);
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -43,33 +38,31 @@ export default function App() {
     [apiContents]
   );
 
-  const createCards = content => {
-    let cards = [],
-      newCard = {},
-      lines = content.split('\n');
-    lines.forEach(line => {
-      if (line.startsWith('###')) {
-        newCard.date = line;
-      } else if (line.startsWith('##')) {
-        newCard.title = line;
-      } else if (line.startsWith('#')) {
-        setHeader(line);
-      } else {
-        if (line.length > 0) newCard.desc = line;
-      }
-
-      console.log(newCard);
-      if (newCard.title && newCard.date && newCard.desc) {
-        cards.push(newCard);
-        console.log(cards);
-        newCard = {};
-      }
-    });
-    return cards;
-  };
-
   useEffect(
     () => {
+      const createCards = content => {
+        let cards = [],
+          newCard = {},
+          lines = content.split('\n');
+        lines.forEach(line => {
+          if (line.startsWith('###')) {
+            newCard.date = line;
+          } else if (line.startsWith('##')) {
+            newCard.title = line;
+          } else if (line.startsWith('#')) {
+            setHeader(line);
+            console.log(header);
+          } else {
+            if (line.length > 0) newCard.desc = line;
+          }
+
+          if (newCard.title && newCard.date && newCard.desc) {
+            cards.push(newCard);
+            newCard = {};
+          }
+        });
+        return cards;
+      };
       const apiCards = createCards(state.contents);
       console.log(apiCards);
       dispatch({
@@ -77,7 +70,7 @@ export default function App() {
         payload: apiCards
       });
     },
-    [state.contents]
+    [header, state.contents]
   );
 
   return (
@@ -87,15 +80,7 @@ export default function App() {
         dispatch
       }}>
       <Nav />
-      <div>
-        {' '}
-        {header.lenght > 0
-          ? {
-              header
-            }
-          : 'Waiting....'}{' '}
-      </div>{' '}
-      <Modal />
+      <div> {header.length > 0 ? `${header}` : 'Waiting....'} </div> <Modal />
     </ContentContext.Provider>
   );
 }

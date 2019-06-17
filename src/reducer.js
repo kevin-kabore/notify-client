@@ -5,6 +5,16 @@ export default function reducer(state, action) {
         ...state,
         contents: action.payload
       };
+    // case 'SET_HEADER':
+    //   return {
+    //     ...state,
+    //     header: action.payload
+    //   };
+    case 'SET_CARDS':
+      return {
+        ...state,
+        cards: action.payload
+      };
     default:
       return state;
   }

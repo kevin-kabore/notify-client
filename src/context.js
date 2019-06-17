@@ -1,7 +1,9 @@
 import React from 'react';
 
 const ContentContext = React.createContext({
-  contents: ''
+  contents: '',
+  header: '',
+  cards: []
 });
 
 export default ContentContext;
